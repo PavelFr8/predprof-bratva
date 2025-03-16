@@ -89,10 +89,3 @@ python3 manage.py test
 ```bash
 python3 manage.py runserver
 ```
-
----
-
-## ER-диаграмма базы данных
-
-![er-diagram](ER.jpg)
-

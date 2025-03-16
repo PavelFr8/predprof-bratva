@@ -11,31 +11,37 @@ from main.models import Tile
 
 
 def get_tile():
-    req = requests.get(f"{settings.API_URL}")
-    # req = requests.get("https://olimp.miet.ru/ppo_it/api")
-    if req:
-        req = req.json()
-    else:
+    try:
+        req = requests.get(f"{settings.API_URL}")
+        # req = requests.get("https://olimp.miet.ru/ppo_it/api")
+        if req:
+            req = req.json()
+        else:
+            return None
+        status = req.get("status")
+        if status == "ok":
+            data = req.get("message").get("data")
+            return data
         return None
-    status = req.get("status")
-    if status == "ok":
-        data = req.get("message").get("data")
-        return data
-    return None
+    except Exception:
+        return None
 
 
 def get_coords():
-    req = requests.get(f"{settings.API_URL}/coords")
-    # req = requests.get("https://olimp.miet.ru/ppo_it/api/coords")
-    if req:
-        req = req.json()
-    else:
+    try:
+        req = requests.get(f"{settings.API_URL}/coords")
+        # req = requests.get("https://olimp.miet.ru/ppo_it/api/coords")
+        if req:
+            req = req.json()
+        else:
+            return None
+        status = req.get("status")
+        if status == "ok":
+            coords = req.get("message")
+            return coords
         return None
-    status = req.get("status")
-    if status == "ok":
-        coords = req.get("message")
-        return coords
-    return None
+    except Exception:
+        return None
 
 
 def is_top(tile):
@@ -146,9 +152,9 @@ def plot_map(map_data, stations, modules):
 
 def create_plot():
     coords = get_coords()
-    map_data = create_map()
-    if coords is None or map_data is None:
+    if coords is None:
         return None
+    map_data = create_map()
 
     plot_map(map_data, [], [coords['sender'], coords['listener']])
     return True

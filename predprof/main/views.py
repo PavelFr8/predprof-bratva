@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.contrib import messages
-import numpy as np
 
-from main.models import Tile
 from main.forms import UrlForm
 from main.utils import create_plot
 
