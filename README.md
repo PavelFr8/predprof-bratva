@@ -66,7 +66,7 @@ copy example.env .env
 Перенесите миграции в базу данных:
 
 ```bash
-cd predprof-bratva
+cd predprof
 python3 manage.py migrate
 ```
 

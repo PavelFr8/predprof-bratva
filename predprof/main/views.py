@@ -1,10 +1,31 @@
 from django.shortcuts import render
+from django.conf import settings
+from django.contrib import messages
 import numpy as np
 
 from main.models import Tile
+from main.forms import UrlForm
+from main.utils import create_plot
 
 
-def map_view(request):
-    tiles = Tile.objects.all()
-    map_data = np.block([[tile.data for tile in tiles]])
-    return render(request, "map.html", {"map_data": map_data})
+def main(request):
+    url_form = UrlForm(request.POST or None)
+    context = {
+        "url_form": url_form,
+        "img": ""
+    }
+    if request.method == "POST":
+        if url_form.is_valid():
+            settings.API_URL = url_form.cleaned_data.get("url")
+            print(settings.API_URL)
+            if create_plot():
+                messages.success(
+                    request,
+                    "Форма успешно отправлена!",
+                )
+            else:
+                messages.success(
+                    request,
+                    "Неверный адрес!",
+                )
+    return render(request, "index.html", context)

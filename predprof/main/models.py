@@ -7,12 +7,6 @@ class Tile(models.Model):
     data = models.JSONField()
 
 
-class Module(models.Model):
-    name = models.CharField(max_length=50)
-    x = models.IntegerField()
-    y = models.IntegerField()
-
-
 class Station(models.Model):
     STATION_TYPES = [("C", "Купер"), ("E", "Энгель")]
     x = models.IntegerField()
